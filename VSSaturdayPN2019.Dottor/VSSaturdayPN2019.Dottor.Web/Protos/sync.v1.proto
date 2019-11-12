@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "VSSaturdayPN2019.Dottor.Web";
+
+
+package VSSaturdayPN2019.Dottor.Sync.V1;
+
+message NotifyStatusRequest {
+	string status = 1;
+	string monitorFolder = 2;
+	string appName = 3;
+}
+
+message NotifyStatusReply {
+	bool status = 1;
+}
+
+
+message NotifyChangeRequest {
+    string messageId = 1;
+	string changeType = 2;
+	string name = 3;
+}
+
+message NotifyChangeReply {
+    string messageId = 1;
+	bool status = 2;
+}
+
+service Sync {
+    rpc NotifyChange(stream NotifyChangeRequest) returns (stream NotifyChangeReply);
+    rpc NotifyStatus(NotifyStatusRequest) returns (NotifyStatusReply);
+}

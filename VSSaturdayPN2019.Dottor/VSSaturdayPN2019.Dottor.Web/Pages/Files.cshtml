@@ -1,0 +1,46 @@
+﻿@page
+@model VSSaturdayPN2019.Dottor.Web.FilesModel
+@{
+    ViewData["Title"] = "Files";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">XE realtime log</h1>
+</div>
+
+
+<div class="card">
+    <div class="card-body" id="pnl">
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+
+    <script>
+        var pnlOutput = document.getElementById("pnl");
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/textHub").build();
+
+
+        connection.on("AddText", function (user, message) {
+            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            var text = user + ": " + msg;
+            var p = document.createElement("p");
+            p.setAttribute("class", "card-text");
+            p.textContent = text;
+            pnlOutput.appendChild(p);
+        });
+
+        connection.start().then(function () {
+
+        }).catch(function (err) {
+            return alert(err.toString());
+        });
+
+    </script>
+
+}

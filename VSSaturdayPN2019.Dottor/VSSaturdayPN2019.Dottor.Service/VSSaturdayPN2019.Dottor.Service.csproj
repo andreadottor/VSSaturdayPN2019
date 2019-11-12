@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>dotnet-VSSaturdayPN2019.Dottor.Service-56AE73C4-C59F-4725-800E-4797E5AB0995</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.9.1" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.23.2" />
+    <PackageReference Include="Grpc.Tools" Version="2.23.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\VSSaturdayPN2019.Dottor.Web\Protos\sync.v1.proto" GrpcServices="Client">
+      <Link>Protos\sync.v1.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+</Project>

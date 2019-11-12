@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.138
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSSaturdayPN2019.Dottor.Web", "VSSaturdayPN2019.Dottor.Web\VSSaturdayPN2019.Dottor.Web.csproj", "{0130A45F-8CD5-4828-92DB-72639E029373}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSSaturdayPN2019.Dottor.Service", "VSSaturdayPN2019.Dottor.Service\VSSaturdayPN2019.Dottor.Service.csproj", "{D9AF1A6D-8379-474E-A9EB-2A48253814FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0130A45F-8CD5-4828-92DB-72639E029373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0130A45F-8CD5-4828-92DB-72639E029373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0130A45F-8CD5-4828-92DB-72639E029373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0130A45F-8CD5-4828-92DB-72639E029373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9AF1A6D-8379-474E-A9EB-2A48253814FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9AF1A6D-8379-474E-A9EB-2A48253814FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9AF1A6D-8379-474E-A9EB-2A48253814FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9AF1A6D-8379-474E-A9EB-2A48253814FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {855BAFD6-FB80-4FCB-87BE-48A0B32E6D6A}
+	EndGlobalSection
+EndGlobal
