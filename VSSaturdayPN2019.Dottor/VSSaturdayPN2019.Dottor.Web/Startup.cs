@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,11 @@ namespace VSSaturdayPN2019.Dottor.Web
             services.AddGrpc();
             services.AddRazorPages();
             services.AddSignalR();
+            services.AddServerSideBlazor().AddCircuitOptions(options =>
+            {
+                options.DetailedErrors = true;
+            });
+            services.AddSingleton<BroacastEventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,10 +61,12 @@ namespace VSSaturdayPN2019.Dottor.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<FilesSyncService>();
-                endpoints.MapHub<FilesSyncHub>("/syncHub");
+                endpoints.MapBlazorHub();
+                endpoints.MapRazorPages();
+                
+                //endpoints.MapHub<FilesSyncHub>("/syncHub");
 
                 //endpoints.MapGet("/", async context =>
                 //{

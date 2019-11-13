@@ -15,15 +15,17 @@ namespace VSSaturdayPN2019.Dottor.Web.Services
     {
         private readonly ILogger<FilesSyncService> _logger;
         private readonly IHubContext<FilesSyncHub> _hubContext;
-        public FilesSyncService(ILogger<FilesSyncService> logger, IHubContext<FilesSyncHub> hubContext)
+        private readonly BroacastEventService _broacastEventService;
+        public FilesSyncService(ILogger<FilesSyncService> logger, IHubContext<FilesSyncHub> hubContext, BroacastEventService broacastEventService)
         {
             _logger = logger;
             _hubContext = hubContext;
+            _broacastEventService = broacastEventService;
         }
 
         public override async Task NotifyChange(
-                IAsyncStreamReader<NotifyChangeRequest> requestStream, 
-                IServerStreamWriter<NotifyChangeReply> responseStream, 
+                IAsyncStreamReader<NotifyChangeRequest> requestStream,
+                IServerStreamWriter<NotifyChangeReply> responseStream,
                 ServerCallContext context)
         {
             _logger.LogInformation("Start NotifyChange");
@@ -37,8 +39,9 @@ namespace VSSaturdayPN2019.Dottor.Web.Services
 
                 try
                 {
-                    var extension = Path.GetExtension(message.Name);
-                    await _hubContext.Clients.All.SendAsync("NotifyChange", message.ChangeType, message.Name, extension);
+                    _broacastEventService.NotifyChange((WatcherChangeTypes)Enum.Parse(typeof(WatcherChangeTypes), message.ChangeType), "", message.Name);
+                    //var extension = Path.GetExtension(message.Name);
+                    //await _hubContext.Clients.All.SendAsync("NotifyChange", message.ChangeType, message.Name, extension);
                     response.Status = true;
                 }
                 catch (Exception ex)

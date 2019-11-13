@@ -1,0 +1,36 @@
+﻿@using VSSaturdayPN2019.Dottor.Web.Services;
+
+@inject BroacastEventService broacastEventService
+
+<h3>FilesComponent</h3>
+
+<ul>
+    @foreach (var file in Files)
+    {
+        <li>@file</li>
+    }
+
+</ul>
+
+@code {
+    //private IReadOnlyList<Customer> Customers;
+
+    //private Dictionary<string, string> files
+    public List<string> Files { get; set; } = new List<string>();
+
+
+
+    protected override void OnInitialized()
+    {
+        Files.Add("pippo");
+
+        broacastEventService.FileSystemChange += (o, e) =>
+        {
+            Files.Add(e.Name);
+            InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
+        };
+
+    }
+
+
+}

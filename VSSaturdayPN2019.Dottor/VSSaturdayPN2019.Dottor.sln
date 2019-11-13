@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.138
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSSaturdayPN2019.Dottor.Web", "VSSaturdayPN2019.Dottor.Web\VSSaturdayPN2019.Dottor.Web.csproj", "{0130A45F-8CD5-4828-92DB-72639E029373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSSaturdayPN2019.Dottor.Web", "VSSaturdayPN2019.Dottor.Web\VSSaturdayPN2019.Dottor.Web.csproj", "{0130A45F-8CD5-4828-92DB-72639E029373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSSaturdayPN2019.Dottor.Service", "VSSaturdayPN2019.Dottor.Service\VSSaturdayPN2019.Dottor.Service.csproj", "{D9AF1A6D-8379-474E-A9EB-2A48253814FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSSaturdayPN2019.Dottor.Service", "VSSaturdayPN2019.Dottor.Service\VSSaturdayPN2019.Dottor.Service.csproj", "{D9AF1A6D-8379-474E-A9EB-2A48253814FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

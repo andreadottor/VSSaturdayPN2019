@@ -25,7 +25,7 @@ namespace VSSaturdayPN2019.Dottor.Service
         {
             _logger = logger;
             _configuration = configuration;
-            var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var channel = GrpcChannel.ForAddress("https://localhost:50051");
             // create the client
             _syncClient = new Sync.SyncClient(channel);
         }
@@ -81,6 +81,7 @@ namespace VSSaturdayPN2019.Dottor.Service
                 ChangeType = e.ChangeType.ToString(),
                 Name = e.Name
             }).GetAwaiter().GetResult();
+
         }
 
     }
