@@ -63,7 +63,8 @@ namespace VSSaturdayPN2019.Dottor.Service
                 Path = _configuration.GetValue<string>("FileSystemWatcher:Folder"),
                 IncludeSubdirectories = true,
             };
-            _fileSystemWatcher.Changed += MonikerChange;
+            _fileSystemWatcher.Created += MonikerChange;
+            _fileSystemWatcher.Deleted += MonikerChange;
             _fileSystemWatcher.EnableRaisingEvents = true;
 
             _notifyChangeCall = _syncClient.NotifyChange();

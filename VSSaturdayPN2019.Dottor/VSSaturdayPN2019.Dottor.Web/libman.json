@@ -146,6 +146,10 @@
         "dist/esm/XhrHttpClient.js",
         "dist/esm/XhrHttpClient.js.map"
       ]
+    },
+    {
+      "library": "font-awesome@4.7.0",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }

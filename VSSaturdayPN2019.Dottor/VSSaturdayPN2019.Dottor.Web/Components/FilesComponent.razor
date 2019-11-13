@@ -2,34 +2,73 @@
 
 @inject BroacastEventService broacastEventService
 
-<h3>FilesComponent</h3>
+<h3>File System sync</h3>
 
-<ul>
+<button class="btn btn-primary" @onclick="ClearFiles">Clear</button>
+<hr />
+
+<div class="row">
+
+
     @foreach (var file in Files)
     {
-        <li>@file</li>
-    }
+        <div class="col-2 text-center fs-icon">
+            @if (file.Value == ".txt")
+            {
+                <i class="fa fa-file-text-o"></i>
+            }
+            else if (file.Value == ".png" || file.Value == ".jpg" || file.Value == ".bmp")
+            {
+                <i class="fa fa-file-image-o"></i>
+            }
+            else if (file.Value == ".pdf")
+            {
+                <i class="fa fa-file-pdf-o"></i>
+            }
+            else if (file.Value == ".doc" || file.Value == ".docx")
+            {
+                <i class="fa fa-file-word-o"></i>
+            }
+            else if (file.Value == ".xls" || file.Value == ".xlsx")
+            {
+                <i class="fa fa-file-excel-o"></i>
+            }
+            else
+            {
+                <i class="fa fa-file-o"></i>
+            }
+            <br />
+            <strong>@file.Key</strong>
 
-</ul>
+        </div>
+
+    }
+    
+</div>
+
 
 @code {
-    //private IReadOnlyList<Customer> Customers;
 
-    //private Dictionary<string, string> files
-    public List<string> Files { get; set; } = new List<string>();
-
-
+    public Dictionary<string, string> Files { get; set; } = new Dictionary<string, string>();
 
     protected override void OnInitialized()
     {
-        Files.Add("pippo");
-
         broacastEventService.FileSystemChange += (o, e) =>
         {
-            Files.Add(e.Name);
+
+            if ((e.ChangeType == System.IO.WatcherChangeTypes.Created || e.ChangeType == System.IO.WatcherChangeTypes.Changed)
+                && !Files.ContainsKey(e.Name))
+                Files.Add(e.Name, System.IO.Path.GetExtension(e.Name));
+            else if (e.ChangeType == System.IO.WatcherChangeTypes.Deleted && Files.ContainsKey(e.Name))
+                Files.Remove(e.Name);
+
             InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
         };
+    }
 
+    public void ClearFiles()
+    {
+        Files.Clear();
     }
 
 

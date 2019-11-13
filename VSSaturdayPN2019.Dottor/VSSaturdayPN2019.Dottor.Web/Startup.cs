@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VSSaturdayPN2019.Dottor.Web.Hubs;
 using VSSaturdayPN2019.Dottor.Web.Services;
 
 namespace VSSaturdayPN2019.Dottor.Web
@@ -30,7 +29,6 @@ namespace VSSaturdayPN2019.Dottor.Web
         {
             services.AddGrpc();
             services.AddRazorPages();
-            services.AddSignalR();
             services.AddServerSideBlazor().AddCircuitOptions(options =>
             {
                 options.DetailedErrors = true;
@@ -65,8 +63,6 @@ namespace VSSaturdayPN2019.Dottor.Web
                 endpoints.MapGrpcService<FilesSyncService>();
                 endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
-                
-                //endpoints.MapHub<FilesSyncHub>("/syncHub");
 
                 //endpoints.MapGet("/", async context =>
                 //{
