@@ -4,13 +4,19 @@
 
 <h3>File System sync</h3>
 
-<button class="btn btn-primary" @onclick="ClearFiles">Clear</button>
+<button class="btn btn-danger" @onclick="ClearFiles">Clear / Reset</button>
 <hr />
+
+
+<div class="form-group">
+    <label for="txtFilter">Filtra:</label>
+    <input class="form-control" @bind-value="FilterText" @bind-value:event="oninput" id="txtFilter" />
+</div>
 
 <div class="row">
 
 
-    @foreach (var file in Files)
+    @foreach (var file in FilteredItems)
     {
         <div class="col-2 text-center fs-icon">
             @if (file.Value == ".txt")
@@ -48,8 +54,12 @@
 
 
 @code {
+    public string FilterText { get; set; }
 
     public Dictionary<string, string> Files { get; set; } = new Dictionary<string, string>();
+
+    public KeyValuePair<string, string>[] FilteredItems
+        => Files.Where(x => (string.IsNullOrWhiteSpace(FilterText) || x.Key.ToLower().Contains(FilterText))).ToArray();
 
     protected override void OnInitialized()
     {
