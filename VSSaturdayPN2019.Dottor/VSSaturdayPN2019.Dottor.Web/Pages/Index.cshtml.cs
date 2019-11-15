@@ -17,9 +17,9 @@ namespace VSSaturdayPN2019.Dottor.Web.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            return RedirectToPage("Files");
         }
     }
 }

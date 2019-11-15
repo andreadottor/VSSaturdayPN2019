@@ -74,3 +74,19 @@ body {
 .fs-icon i {
     font-size: 4em;
 }
+
+i.fa.fa-file-text-o{
+    color: dimgrey;
+}
+i.fa.fa-file-image-o{
+    color:orangered;
+}
+i.fa.fa-file-pdf-o {
+    color: darkred;
+}
+i.fa.fa-file-excel-o {
+    color: forestgreen;
+}
+i.fa.fa-file-word-o {
+    color: mediumblue;
+}
