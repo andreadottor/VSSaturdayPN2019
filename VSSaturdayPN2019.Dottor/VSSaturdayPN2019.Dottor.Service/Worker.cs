@@ -20,13 +20,16 @@ namespace VSSaturdayPN2019.Dottor.Service
         private FileSystemWatcher _fileSystemWatcher;
         private readonly Sync.SyncClient _syncClient;
         private Grpc.Core.AsyncDuplexStreamingCall<NotifyChangeRequest, NotifyChangeReply> _notifyChangeCall;
+        private readonly string _appName = "VSSaturdayPN2019.Dottor.Service";
+        private readonly string _folder;
 
         public Worker(ILogger<Worker> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
+            _folder = _configuration.GetValue<string>("FileSystemWatcher:Folder");
+
             var channel = GrpcChannel.ForAddress("https://localhost:50051");
-            // create the client
             _syncClient = new Sync.SyncClient(channel);
         }
 
@@ -34,19 +37,20 @@ namespace VSSaturdayPN2019.Dottor.Service
         {
             await _syncClient.NotifyStatusAsync(new NotifyStatusRequest()
             {
-                AppName = "VSSaturdayPN2019.Dottor.Service",
-                MonitorFolder = _configuration.GetValue<string>("FileSystemWatcher:Folder"),
+                AppName = this._appName,
+                MonitorFolder = this._folder,
                 Status = "START"
             });
 
             await base.StartAsync(cancellationToken);
         }
+
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             await _syncClient.NotifyStatusAsync(new NotifyStatusRequest()
             {
-                AppName = "VSSaturdayPN2019.Dottor.Service",
-                MonitorFolder = _configuration.GetValue<string>("FileSystemWatcher:Folder"),
+                AppName = this._appName,
+                MonitorFolder = this._folder,
                 Status = "STOP"
             });
 
@@ -60,11 +64,12 @@ namespace VSSaturdayPN2019.Dottor.Service
             _fileSystemWatcher = new FileSystemWatcher
             {
                 Filter = "*.*",
-                Path = _configuration.GetValue<string>("FileSystemWatcher:Folder"),
+                Path = this._folder,
                 IncludeSubdirectories = true,
             };
-            _fileSystemWatcher.Created += MonikerChange;
-            _fileSystemWatcher.Deleted += MonikerChange;
+            _fileSystemWatcher.Created += ManageChange;
+            _fileSystemWatcher.Deleted += ManageChange;
+            _fileSystemWatcher.Renamed += ManageRename;
             _fileSystemWatcher.EnableRaisingEvents = true;
 
             _notifyChangeCall = _syncClient.NotifyChange();
@@ -72,9 +77,9 @@ namespace VSSaturdayPN2019.Dottor.Service
             await Task.CompletedTask;
         }
 
-        private void MonikerChange(object sender, FileSystemEventArgs e)
+        private void ManageChange(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"{e.ChangeType} - {e.Name}");
+            _logger.LogInformation($"{e.ChangeType} - {e.Name}");
             
             _notifyChangeCall.RequestStream.WriteAsync(new NotifyChangeRequest
             {
@@ -82,7 +87,29 @@ namespace VSSaturdayPN2019.Dottor.Service
                 ChangeType = e.ChangeType.ToString(),
                 Name = e.Name
             }).GetAwaiter().GetResult();
+        }
 
+        private void ManageRename(object sender, RenamedEventArgs e)
+        {
+            _logger.LogInformation($"Renamed - {e.OldName} in {e.Name}");
+
+            // delete old
+            //
+            _notifyChangeCall.RequestStream.WriteAsync(new NotifyChangeRequest
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                ChangeType = WatcherChangeTypes.Deleted.ToString(),
+                Name = e.OldName
+            }).GetAwaiter().GetResult();
+
+            // create new
+            //
+            _notifyChangeCall.RequestStream.WriteAsync(new NotifyChangeRequest
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                ChangeType = WatcherChangeTypes.Created.ToString(),
+                Name = e.Name
+            }).GetAwaiter().GetResult();
         }
 
     }
