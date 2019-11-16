@@ -2,19 +2,19 @@
 
 @inject BroacastEventService broacastEventService
 
-<h3>File System sync</h3>
+<h3>XE File Sync</h3>
 
 <button class="btn btn-danger" @onclick="ClearFiles">Clear / Reset</button>
 <hr />
 
-
 <div class="form-group">
     <label for="txtFilter">Filtra:</label>
-    <input class="form-control" @bind-value="FilterText" @bind-value:event="oninput" id="txtFilter" />
+    <input class="form-control" 
+           @bind-value="FilterText" 
+           @bind-value:event="oninput" id="txtFilter" />
 </div>
 
 <div class="row">
-
 
     @foreach (var file in FilteredItems)
     {
@@ -45,13 +45,10 @@
             }
             <br />
             <strong>@file.Key</strong>
-
         </div>
-
     }
     
 </div>
-
 
 @code {
     public string FilterText { get; set; }
@@ -65,7 +62,6 @@
     {
         broacastEventService.FileSystemChange += (o, e) =>
         {
-
             if ((e.ChangeType == System.IO.WatcherChangeTypes.Created || e.ChangeType == System.IO.WatcherChangeTypes.Changed)
                 && !Files.ContainsKey(e.Name))
                 Files.Add(e.Name, System.IO.Path.GetExtension(e.Name));
@@ -80,6 +76,5 @@
     {
         Files.Clear();
     }
-
 
 }
